@@ -283,8 +283,15 @@ install_gpu_drivers() {
         sudo apt install -y mesa-va-drivers va-driver-all vainfo radeontop
         msg_ok "AMD GPU drivers installed"
 
+    elif echo "$gpu_type" | grep -qi "1234:1111\|bochs\|qxl\|virtio.*vga\|cirrus"; then
+        # Virtual GPU (QEMU/KVM)
+        msg_warn "Virtual display adapter detected (no physical GPU)"
+        msg_info "This VM doesn't have GPU passthrough configured"
+        msg_info "To use GPU acceleration, configure passthrough in Proxmox"
+
     else
         msg_warn "Unknown GPU type - no drivers installed"
+        msg_info "If you have a physical GPU, it may need manual driver installation"
     fi
 
     draw_section_end
