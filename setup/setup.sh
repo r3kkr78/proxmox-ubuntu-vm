@@ -87,7 +87,7 @@ draw_section_end() {
 
 press_enter() {
     echo ""
-    read -rp "  Press Enter to continue..."
+    read -rp "  Press Enter to continue..." </dev/tty
 }
 
 # ─────────────────────────────────────────────────────────────────────────────
@@ -111,7 +111,7 @@ check_ubuntu() {
     source /etc/os-release
     if [[ "$ID" != "ubuntu" ]]; then
         msg_warn "This script is designed for Ubuntu. Detected: $ID"
-        read -rp "  Continue anyway? (y/N): " continue_anyway
+        read -rp "  Continue anyway? (y/N): " continue_anyway </dev/tty
         if [[ ! "$continue_anyway" =~ ^[Yy]$ ]]; then
             exit 0
         fi
@@ -189,7 +189,7 @@ install_docker() {
     if command -v docker &> /dev/null; then
         msg_warn "Docker is already installed"
         docker --version
-        read -rp "  Reinstall? (y/N): " reinstall
+        read -rp "  Reinstall? (y/N): " reinstall </dev/tty
         if [[ ! "$reinstall" =~ ^[Yy]$ ]]; then
             draw_section_end
             return
@@ -222,7 +222,7 @@ install_docker() {
 
     # Portainer prompt
     echo ""
-    read -rp "  Install Portainer web UI? (y/N): " install_portainer
+    read -rp "  Install Portainer web UI? (y/N): " install_portainer </dev/tty
     if [[ "$install_portainer" =~ ^[Yy]$ ]]; then
         msg_info "Installing Portainer..."
         sudo docker volume create portainer_data
@@ -264,7 +264,7 @@ install_gpu_drivers() {
 
         msg_ok "NVIDIA drivers installed"
 
-        read -rp "  Install CUDA toolkit? (y/N): " install_cuda
+        read -rp "  Install CUDA toolkit? (y/N): " install_cuda </dev/tty
         if [[ "$install_cuda" =~ ^[Yy]$ ]]; then
             msg_info "Installing CUDA toolkit..."
             sudo apt install -y nvidia-cuda-toolkit
@@ -408,7 +408,7 @@ install_everything() {
     draw_section "Installing Everything"
     echo ""
     msg_info "This will install all options (1-6)"
-    read -rp "  Continue? (y/N): " confirm
+    read -rp "  Continue? (y/N): " confirm </dev/tty
     if [[ ! "$confirm" =~ ^[Yy]$ ]]; then
         draw_section_end
         return
@@ -440,7 +440,7 @@ main() {
         draw_header
         draw_menu
 
-        read -rp "  Select an option: " choice
+        read -rp "  Select an option: " choice </dev/tty
 
         case $choice in
             1)
